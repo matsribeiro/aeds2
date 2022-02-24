@@ -1,8 +1,5 @@
 class TP01Q03{
-    //Constante da cifra = 3
-    static final int cifra = 3;
-
-    //FIM
+    //FIM (reciclagem)
     public static boolean isFim(String s){
         return(s.length() == 3 && s.charAt(0) == 'F' && s.charAt(1) == 'I' && s.charAt(2) == 'M');
     }
@@ -10,6 +7,7 @@ class TP01Q03{
     //Altera os caracteres da string "s" com a constante da cifra
     public static String ciframento(String s){
         String resp = "";
+        int cifra = 3;
 
         for(int i = 0; i < s.length(); i++){
             resp += (char)(s.charAt(i) + cifra);
