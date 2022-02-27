@@ -1,7 +1,12 @@
 public class TP01Q15{
 
+    //FIM (reciclagem)
+    public static boolean isFim(String s){
+        return(s.length() == 3 && s.charAt(0) == 'F' && s.charAt(1) == 'I' && s.charAt(2) == 'M');
+    }
+
     //Checa vogais
-    public static String isVogal(String s, int i){
+    public static String Vogal(String s, int i){
 
         if(i < s.length()){
             if(s.charAt(i) != 'a' && s.charAt(i) != 'e' && s.charAt(i) != 'i' && s.charAt(i) != 'o' && s.charAt(i) != 'u'){
@@ -11,14 +16,16 @@ public class TP01Q15{
             return "SIM ";
         }
 
-        return isVogal(s, i+1);
+        return Vogal(s, i+1);
     }
     
-    public static String isVogal(String s){
-        return isVogal(s, 0);
+    //Chama a metodo 'vogais'
+    public static String Vogal(String s){
+        return Vogal(s, 0);
     }
     
-    public static String isConsoante(String s, int i){
+    //Checa consoantes
+    public static String Consoante(String s, int i){
 
         if(i < s.length()){
             if(s.charAt(i) == 'a' || s.charAt(i) == 'e' || s.charAt(i) == 'i' || s.charAt(i) == 'o' || s.charAt(i) == 'u' || !((s.charAt(i) >= 97 && s.charAt(i) <= 122))) {
@@ -28,37 +35,38 @@ public class TP01Q15{
             return "SIM ";
         }
 
-        return isConsoante(s, i+1);
+        return Consoante(s, i+1);
     }
 
-    public static String isConsoante(String s){
-        return isConsoante(s, 0);
+    //Chama a metodo 'consoante'
+    public static String Consoante(String s){
+        return Consoante(s, 0);
     }
 
     //Checa inteiros
-    public static String isInteiro(String s, int i){
+    public static String Inteiro(String s, int i){
 
         if(i < s.length()){
-            //(ASCII) 0 = 48 ... 9 = 57
-            if(!((s.charAt(i) >= 48 && s.charAt(i) <= 57))){
+            if(!((s.charAt(i) >= '0' && s.charAt(i) <= '9'))){
                 return "NAO ";
             }
         }else{
             return "SIM ";
         }
 
-        return isInteiro(s, i+1);
+        return Inteiro(s, i+1);
     }
 
-    public static String isInteiro(String s){
-        return isInteiro(s, 0);
+    //Chama a metodo 'inteiro'
+    public static String Inteiro(String s){
+        return Inteiro(s, 0);
     }
 
     //Checa reais
-     public static String isReal(String s, int i, int virgula_ponto){
+     public static String Real(String s, int i, int virgula_ponto){
 
         if(i < s.length()){
-            if((s.charAt(i) >= 48 && s.charAt(i) <= 57) == false){
+            if((s.charAt(i) >= '0' && s.charAt(i) <= '9') == false){
                 if((s.charAt(i) == ',' || s.charAt(i) == '.') && virgula_ponto == 0)
                     virgula_ponto++;
                 else
@@ -68,18 +76,15 @@ public class TP01Q15{
             return "SIM";
         }
 
-        return isReal(s, i+1, virgula_ponto);
+        return Real(s, i+1, virgula_ponto);
     }
 
-    public static String isReal(String s){
-        return isReal(s, 0, 0);
+    //Chama a metodo 'real'
+    public static String Real(String s){
+        return Real(s, 0, 0);
     }
 
-    //FIM
-    public static boolean isFim(String s){
-        return(s.length() == 3 && s.charAt(0) == 'F' && s.charAt(1) == 'I' && s.charAt(2) == 'M');
-    }
-
+    //Main (reciclagem)
     public static void main(String[] args){
         MyIO.setCharset("UTF-8");
         String[] entrada = new String[2000];
@@ -91,7 +96,7 @@ public class TP01Q15{
         num_linha--;
 
         for(int i = 0; i < num_linha; i++){
-            MyIO.println(isVogal(entrada[i]) + isConsoante(entrada[i]) + isInteiro(entrada[i]) + isReal(entrada[i]));
+            MyIO.println(Vogal(entrada[i]) + Consoante(entrada[i]) + Inteiro(entrada[i]) + Real(entrada[i]));
         }
     }
 }

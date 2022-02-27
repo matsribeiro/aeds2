@@ -1,7 +1,12 @@
 public class TP01Q06{
 
+    //FIM (reciclagem)
+    public static boolean isFim(String s){
+        return(s.length() == 3 && s.charAt(0) == 'F' && s.charAt(1) == 'I' && s.charAt(2) == 'M');
+    }
+
     //Checa vogais
-    public static String isVogal(String s){
+    public static String Vogal(String s){
 
         for(int i = 0; i < s.length(); i++){
             if(s.charAt(i) != 'a' && s.charAt(i) != 'e' && s.charAt(i) != 'i' && s.charAt(i) != 'o' && s.charAt(i) != 'u'){
@@ -13,7 +18,7 @@ public class TP01Q06{
     }
 
     //Checa consoantes
-    public static String isConsoante(String s){
+    public static String Consoante(String s){
 
         for(int i = 0; i < s.length(); i++){
             if(s.charAt(i) == 'a' || s.charAt(i) == 'e' || s.charAt(i) == 'i' || s.charAt(i) == 'o' || s.charAt(i) == 'u' || !((s.charAt(i) >= 97 && s.charAt(i) <= 122))) {
@@ -25,11 +30,10 @@ public class TP01Q06{
     }
 
     //Checa inteiros
-    public static String isInteiro(String s){
+    public static String Inteiro(String s){
 
         for(int i = 0; i < s.length(); i++){
-            //(ASCII) 0 = 48 ... 9 = 57
-            if(!((s.charAt(i) >= 48 && s.charAt(i) <= 57))){
+            if(!((s.charAt(i) >= '0' && s.charAt(i) <= '9'))){
                 return "NAO ";
             }
         }
@@ -38,11 +42,11 @@ public class TP01Q06{
     }
 
     //Checa reais
-    public static String isReal(String s){
+    public static String Real(String s){
         int virgula_ponto = 0;
 
         for(int i = 0; i < s.length(); i++){
-            if((s.charAt(i) >= 48 && s.charAt(i) <= 57) == false){
+            if((s.charAt(i) >= '0' && s.charAt(i) <= '9') == false){
                 if((s.charAt(i) == ',' || s.charAt(i) == '.' || s.charAt(i) == ';') && virgula_ponto == 0)
                     virgula_ponto++;
                 else
@@ -53,12 +57,8 @@ public class TP01Q06{
         return "SIM";
     }
 
-    //FIM
-    public static boolean isFim(String s){
-        return(s.length() == 3 && s.charAt(0) == 'F' && s.charAt(1) == 'I' && s.charAt(2) == 'M');
-    }
-
-    public static void main(String[] args){
+    //Main (reciclagem)
+        public static void main(String[] args){
         MyIO.setCharset("UTF-8");
         String[] entrada = new String[2000];
         int num_linha = 0;
@@ -69,7 +69,7 @@ public class TP01Q06{
         num_linha--;
 
         for(int i = 0; i < num_linha; i++){
-            MyIO.println(isVogal(entrada[i]) + isConsoante(entrada[i]) + isInteiro(entrada[i]) + isReal(entrada[i]));
+            MyIO.println(Vogal(entrada[i]) + Consoante(entrada[i]) + Inteiro(entrada[i]) + Real(entrada[i]));
         }
     }
 }

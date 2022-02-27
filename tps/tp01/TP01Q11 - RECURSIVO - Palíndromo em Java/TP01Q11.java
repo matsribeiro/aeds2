@@ -1,30 +1,31 @@
 class TP01Q11{
     
     //Checa se a string fornecida eh um palindromo, *recursivamente*
-    public static String isPalindromo(String s, int index){
+    public static String palindromo(String s, int i){
         
         //Compara os caracteres
-        if(index < s.length()-index-1){
-            if(s.charAt(index) != s.charAt(s.length()-index-1)){
+        if(i < s.length()-i-1){
+            if(s.charAt(i) != s.charAt(s.length()-i-1)){
                 return "NAO";
             }
         }else{
             return "SIM";
         }
 
-        return isPalindromo(s, index+1);
+        return palindromo(s, i+1);
     }
 
-    public static String isPalindromo(String s){
-        return isPalindromo(s, 0);
+    //Chama a metodo 'palindromo'
+    public static String palindromo(String s){
+        return palindromo(s, 0);
     }
 
-
+    //FIM (reciclagem)
     public static boolean isFim(String s){
         return(s.length() == 3 && s.charAt(0) == 'F' && s.charAt(1) == 'I' && s.charAt(2) == 'M');
     }
 
-    //Reciclagem da main de outras questoes
+    //Main (reciclagem)
     public static void main(String[] args){
         String[] entrada = new String[1000];
         int num_linha = 0;
@@ -35,7 +36,7 @@ class TP01Q11{
         num_linha--;
 
         for(int i = 0; i < num_linha; i++){
-            MyIO.println(isPalindromo(entrada[i]));
+            MyIO.println(palindromo(entrada[i]));
         }
     }
 }

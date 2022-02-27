@@ -2,12 +2,13 @@ import java.util.Random;
 import java.lang.Math;
 
 class TP01Q04{
-    private static Random gerador = new Random();
 
     //FIM (reciclagem)
     public static boolean isFim(String s){
         return(s.length() == 3 && s.charAt(0) == 'F' && s.charAt(1) == 'I' && s.charAt(2) == 'M');
     }
+
+    private static Random gerador = new Random();
 
     //Altera os caracteres da string "s" com a constante do gerador (4)
     public static String alteracaoAleatorio(String s){

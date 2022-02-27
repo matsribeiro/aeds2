@@ -3,27 +3,27 @@
 #include <string.h>
 #include <stdbool.h>
 
-bool isPalindromo(char str[], int index){
+//palindromo recursivo
+bool palindromo(char str[], int i){
 
-    if(index < strlen(str) - index - 2){
-        //         printf("%c",str[index]);
-        // printf("%c",str[strlen(str) - index - 2]);
-       if(str[index] != str[strlen(str)-index-2]){
+    if(i < strlen(str) - i - 2){
+       if(str[i] != str[strlen(str)-i-2]){
            return 0;
         }
     }else{
         return 1;
     }
 
-   return isPalindromo(str, index+1);
+   return palindromo(str, i+1);
 }
 
+//FIM (reciclagem)
 int isFim(char s[]){
     return (s[0] == 'F' && s[1] == 'I' && s[2] == 'M');
 }
 
+//Main (reciclagem)
 int main(){
-    // setlocale(LC_ALL, "en_US.UTF-8");
     char entrada[1000][1000];
     int num_linha = 0;
 
@@ -33,7 +33,7 @@ int main(){
     num_linha--;
 
     for(int i = 0; i < num_linha; i++){
-        if(isPalindromo(entrada[i], 0) == true){
+        if(palindromo(entrada[i], 0) == true){
             printf("SIM\n");
         }else{
             printf("NAO\n");

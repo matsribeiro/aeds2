@@ -2,7 +2,7 @@
 #include <stdlib.h>
 
 int main(){
-    FILE *fp = fopen("entrada.txt", "wb");
+    FILE *fp = fopen("arq10.txt", "wb");
     int num_linhas;
     double num;
     scanf("%i", &num_linhas);
@@ -17,7 +17,7 @@ int main(){
     }
 
     fclose(fp);
-    fp = fopen("entrada.txt", "rb");
+    fp = fopen("arq10.txt", "rb");
 
     for(int i = 1; i <= num_linhas; i++){
         fseek(fp, -i*8, SEEK_END);

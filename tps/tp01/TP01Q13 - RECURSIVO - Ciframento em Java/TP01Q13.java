@@ -1,24 +1,23 @@
 class TP01Q13{
-    //Constante da cifra = 3
-    static final int cifra = 3;
 
-    //FIM
+    //FIM (reciclagem)
     public static boolean isFim(String s){
         return(s.length() == 3 && s.charAt(0) == 'F' && s.charAt(1) == 'I' && s.charAt(2) == 'M');
     }
 
     //Altera os caracteres da string "s" com a constante da cifra
-    public static String ciframento(String s, String resp, int index){
+    public static String ciframento(String s, String resp, int i){
+        int cifra = 3;
 
-        if(index < s.length()){
-            resp += (char)(s.charAt(index) + 3);
-            resp = ciframento(s, resp, index + 1);
+        if(i < s.length()){
+            resp += (char)(s.charAt(i) + cifra);
+            resp = ciframento(s, resp, i + 1);
         }
 
         return resp;
     }
 
-    //Recursiva
+    //Chama a metodo 'ciframento'
     public static String ciframento(String s){
         return ciframento(s, "", 0);
     }

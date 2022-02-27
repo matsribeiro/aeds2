@@ -3,7 +3,7 @@
 #include <string.h>
 
 //Checa vogais
-const char* isVogal(char s[]){
+const char* Vogal(char s[]){
 
     for(int i = 0; i < strlen(s)-2; i++){
         if(s[i] != 'a' && s[i] != 'e' && s[i] != 'i' && s[i] != 'o' && s[i] != 'u'){
@@ -15,7 +15,7 @@ const char* isVogal(char s[]){
 }
 
 //Checa consoantes
-const char* isConsoante(char s[]){
+const char* Consoante(char s[]){
 
     for(int i = 0; i < strlen(s)-2; i++){
         if(s[i] == 'a' || s[i] == 'e' || s[i] == 'i' || s[i] == 'o' || s[i] == 'u' || !((s[i] >= 97 && s[i] <= 122))) {
@@ -27,7 +27,7 @@ const char* isConsoante(char s[]){
 }
 
 //Checa inteiros
-const char* isInteiro(char s[]){
+const char* Inteiro(char s[]){
 
     for(int i = 0; i < strlen(s)-1; i++){
         if(!((s[i] >= 48 && s[i] <= 57))){
@@ -39,7 +39,7 @@ const char* isInteiro(char s[]){
 }
 
 //Checa reais
-const char* isReal(char s[]){
+const char* Real(char s[]){
     int virgula_ponto = 0;
 
     for(int i = 0; i < strlen(s)-2; i++){
@@ -54,11 +54,12 @@ const char* isReal(char s[]){
     return "SIM";
 }
 
-//FIM
+//FIM (reciclagem)
 int isFim(char s[]){
     return (s[0] == 'F' && s[1] == 'I' && s[2] == 'M');
 }
 
+//Main (reciclagem)
 int main(){
     char entrada[1000][1000];
     int num_linha = 0;
@@ -69,7 +70,7 @@ int main(){
     num_linha--;
 
     for(int i = 0; i < num_linha; i++){
-        printf("%s%s%s%s\n", isVogal(entrada[i]), isConsoante(entrada[i]), isInteiro(entrada[i]), isReal(entrada[i]));
+        printf("%s%s%s%s\n", Vogal(entrada[i]), Consoante(entrada[i]), Inteiro(entrada[i]), Real(entrada[i]));
     }
 
     return 0;

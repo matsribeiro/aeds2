@@ -3,7 +3,7 @@ import java.net.*;
 
 class TP01Q08{
 
-    //Git
+    //Ler HTML (reciclagem)
     public static String getHtml(String endereco){
         URL url;
         InputStream is = null;
@@ -35,10 +35,10 @@ class TP01Q08{
 
     public static String readHtml(String html){
         int a = 0, e = 0, i = 0, o = 0, u = 0;
-        int a_ag = 0, e_ag = 0, i_ag = 0, o_ag = 0, u_ag = 0;
-        int a_gra = 0, e_gra = 0, i_gra = 0, o_gra = 0, u_gra = 0;
+        int a_agudo = 0, e_agudo = 0, i_agudo = 0, o_agudo = 0, u_agudo = 0;
+        int a_grave = 0, e_grave = 0, i_grave = 0, o_grave = 0, u_grave = 0;
         int a_til = 0, o_til = 0;
-        int a_circ = 0, e_circ = 0, i_circ = 0, o_circ = 0, u_circ = 0;
+        int a_circunflexo = 0, e_circunflexo = 0, i_circunflexo = 0, o_circunflexo = 0, u_circunflexo = 0;
         int consoantes = 0;
         int br = 0, table = 0;
 
@@ -60,34 +60,34 @@ class TP01Q08{
                     u++;
                     break;
                 case 'á':
-                    a_ag++;
+                    a_agudo++;
                     break;
                 case 'é':
-                    e_ag++;
+                    e_agudo++;
                     break;
                 case 'í':
-                    i_ag++;
+                    i_agudo++;
                     break;
                 case 'ó':
-                    o_ag++;
+                    o_agudo++;
                     break;
                 case 'ú':
-                    u_ag++;
+                    u_agudo++;
                     break;
                 case 'à':
-                    a_gra++;
+                    a_grave++;
                     break;
                 case 'è':
-                    e_gra++;
+                    e_grave++;
                     break;
                 case 'ì':
-                    i_gra++;
+                    i_grave++;
                     break;
                 case 'ò':
-                    o_gra++;
+                    o_grave++;
                     break;
                 case 'ù':
-                    u_gra++;
+                    u_grave++;
                     break;
                 case 'ã':
                     a_til++;
@@ -96,19 +96,19 @@ class TP01Q08{
                     o_til++;
                     break;
                 case 'â':
-                    a_circ++;
+                    a_circunflexo++;
                     break;
                 case 'ê':
-                    e_circ++;
+                    e_circunflexo++;
                     break;
                 case 'î':
-                    i_circ++;
+                    i_circunflexo++;
                     break;
                 case 'ô':
-                    o_circ++;
+                    o_circunflexo++;
                     break;
                 case 'û':
-                    u_circ++;
+                    u_circunflexo++;
                     break;
                 case '<':
                     if(html.charAt(j+1) == 'b' && html.charAt(j+2) == 'r' && html.charAt(j+3) == '>'){
@@ -127,15 +127,16 @@ class TP01Q08{
             }
         }
 
-        return "a("+a+") e("+e+") i("+i+") o("+o+") u("+u+") á("+a_ag+") é("+e_ag+") í("+i_ag+") ó("+o_ag+") ú("+u_ag+") à("+a_gra+") è("+e_gra+") ì("+i_gra+") ò("+o_gra+") ù("+u_gra+") ã("+a_til+") õ("+o_til+") â("+a_circ+") ê("+e_circ+") î("+i_circ+") ô("+o_circ+") û("+u_circ+") consoante("+consoantes+") <br>("+br+") <table>("+table+")";
+        return "a("+a+") e("+e+") i("+i+") o("+o+") u("+u+") á("+a_agudo+") é("+e_agudo+") í("+i_agudo+") ó("+o_agudo+") ú("+u_agudo+") à("+a_grave+") è("+e_grave+") ì("+i_grave+") ò("+o_grave+") ù("+u_grave+") ã("+a_til+") õ("+o_til+") â("+a_circunflexo+") ê("+e_circunflexo+") î("+i_circunflexo+") ô("+o_circunflexo+") û("+u_circunflexo+") consoante("+consoantes+") <br>("+br+") <table>("+table+")";
     }
 
-    //FIM
+    //FIM (reciclagem)
     public static boolean isFim(String s){
         return(s.length() == 3 && s.charAt(0) == 'F' && s.charAt(1) == 'I' && s.charAt(2) == 'M');
     }
 
-   public static void main(String[] args) {
+    //Main (reciclagem)
+    public static void main(String[] args) {
         String[] entrada = new String[2000];
         int num_linha = 0;
         String html;
