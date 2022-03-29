@@ -38,12 +38,12 @@ class Filme{
     public String[] getPalavras(){
         return palavrasChave;
     }
-    public void setPalavras(String[] palavras_chaves){
+    public void setPalavras(String palavras_chaves){
         this.palavrasChave = palavrasChave;
     }
 
     //metodo clone
-    public Filme clonar{
+    public Filme clonar(){
         Filme clone =  new Filme();
         clone.setData(data);
         clone.setDuracao(duracao);
@@ -52,7 +52,7 @@ class Filme{
     }
 
     //mrtodo imprimir
-    public String imprimir{
+    public String imprimir(){
         return getName()+sdf.format(getData());
     }
 
@@ -112,7 +112,7 @@ class Filme{
         
         palavrasChave = new String[contador];
 
-    }
+    } 
 
     public String buscaAteParenteses(String original){
         String limpa = "";
@@ -123,9 +123,7 @@ class Filme{
 
         return limpa;
     }
-}
 
-public class App{
     public static void main(String[] args) throws Exception{
         //criar array de String
         String entrada[] = new String[100];
@@ -147,7 +145,7 @@ public class App{
             filmes[i] = new Filme();
             filmes[i] = ler(entrada[i]);
         }
-
-        //percorrer o array imprimido
     }
 }
+
+//contains em c -> int a = strstr(linha,"...");
