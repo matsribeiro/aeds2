@@ -13,7 +13,7 @@ class Filme {
     private String idioma;
     private String situacao;
     private String orcamento;
-    private String[] palavras_chaves;
+    private String palavras_chaves;
 
     // construtores
     public Filme() {
@@ -25,10 +25,11 @@ class Filme {
         idioma = "";
         situacao = "";
         orcamento = "";
+        palavras_chaves = "";
     }
 
     public Filme(String nome, String titulo_original, String data, int duracao, String genero, String idioma,
-            String situacao, String orcamento, String[] palavras_chaves) {
+            String situacao, String orcamento, String palavras_chaves) {
         this.nome = nome;
         this.titulo_original = titulo_original;
         this.data = data;
@@ -105,11 +106,11 @@ class Filme {
         this.orcamento = orcamento;
     }
 
-    public String[] getPalavras() {
+    public String getPalavras() {
         return palavras_chaves;
     }
 
-    public void setPalavras(String[] palavras_chaves) {
+    public void setPalavras(String palavras_chaves) {
         this.palavras_chaves = palavras_chaves;
     }
 
@@ -132,8 +133,7 @@ class Filme {
 
     // imprimir
     private void imprimir() {
-        System.out.println(nome + " " + titulo_original + " " + data + duracao + " " + genero + " " + idioma + " "
-                + situacao + " " + orcamento);
+        System.out.println(nome + " " + titulo_original + " " + data + duracao + " " + genero + " " + idioma + " " + situacao + " " + orcamento + " " + palavras_chaves);
     }
 
     // remover as tags do html
@@ -188,6 +188,8 @@ class Filme {
                 if (linha.charAt(i + 1) == 'i') {
                     if (linha.charAt(i + 2) == 't'){
                         i += 6;
+                    } else if(linha.charAt(i + 2) == 'm'){
+                        resp += "S";
                     }
                 } else {
                     resp += linha.charAt(i);
@@ -269,6 +271,17 @@ class Filme {
         return resp;
     }
 
+    // transformar situação
+    public String transformarSituacao(String linha){
+        String resp = "";
+
+        for (int i = 2; i < linha.length(); i++){
+            resp += linha.charAt(i);
+        }
+
+        return resp;
+    }
+
     // transformar orcamento
     public String transformarOrcamento(String linha) {
         String resp = "";
@@ -302,6 +315,26 @@ class Filme {
         }
         resp2 += "E";
         resp2 += String.valueOf(tamanho);
+
+        if(resp2.charAt(2) == 'E'){
+            resp2 = "";
+            resp2 += resp.charAt(i);
+            resp2 += ".0E";
+            resp2 += String.valueOf(tamanho);
+        }
+
+        if(tamanho == 6){
+            resp2 = "";
+            resp2 += resp.charAt(i);
+            for (int n = 1; n < resp.length(); n++) {
+                if (resp.charAt(n) == '0') {
+                    resp2 += "0";
+                } else {
+                    resp2 += resp.charAt(n);
+                }
+            }
+            resp2 += ".0";
+        }
 
         return resp2;
     }
@@ -386,12 +419,18 @@ class Filme {
                 // grava o situacao (">Situação<")
                 if (linha.contains(">Situação<")) {
                     this.situacao = removeTags(linha);
+                    this.situacao = transformarSituacao(situacao);
                 }
 
                 // grava o orcamento (">Orçamento<")
                 if (linha.contains(">Orçamento<")) {
                     this.orcamento = removeTags(linha);
                     this.orcamento = transformarOrcamento(orcamento);
+                }
+
+                // grava o palavras-chave ("/keyword/")
+                if (linha.contains("/keyword/")) {
+                    this.palavras_chaves = removeTags(linha);
                 }
             }
 
