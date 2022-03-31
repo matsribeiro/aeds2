@@ -133,7 +133,8 @@ class Filme {
 
     // imprimir
     private void imprimir() {
-        System.out.println(nome + " " + titulo_original + " " + data + duracao + " " + genero + " " + idioma + " " + situacao + " " + orcamento + " " + palavras_chaves);
+        System.out.println(nome + " " + titulo_original + " " + data + duracao + " " + genero + " " + idioma + " "
+                + situacao + " " + orcamento + " " + palavras_chaves);
     }
 
     // remover as tags do html
@@ -186,9 +187,9 @@ class Filme {
             } // remove 'Situação'
             else if (linha.charAt(i) == 'S') {
                 if (linha.charAt(i + 1) == 'i') {
-                    if (linha.charAt(i + 2) == 't'){
+                    if (linha.charAt(i + 2) == 't') {
                         i += 6;
-                    } else if(linha.charAt(i + 2) == 'm'){
+                    } else if (linha.charAt(i + 2) == 'm') {
                         resp += "S";
                     }
                 } else {
@@ -272,10 +273,10 @@ class Filme {
     }
 
     // transformar situação
-    public String transformarSituacao(String linha){
+    public String transformarSituacao(String linha) {
         String resp = "";
 
-        for (int i = 2; i < linha.length(); i++){
+        for (int i = 2; i < linha.length(); i++) {
             resp += linha.charAt(i);
         }
 
@@ -316,14 +317,14 @@ class Filme {
         resp2 += "E";
         resp2 += String.valueOf(tamanho);
 
-        if(resp2.charAt(2) == 'E'){
+        if (resp2.charAt(2) == 'E') {
             resp2 = "";
             resp2 += resp.charAt(i);
             resp2 += ".0E";
             resp2 += String.valueOf(tamanho);
         }
 
-        if(tamanho == 6){
+        if (tamanho == 6) {
             resp2 = "";
             resp2 += resp.charAt(i);
             for (int n = 1; n < resp.length(); n++) {
@@ -429,8 +430,32 @@ class Filme {
                 }
 
                 // grava o palavras-chave ("/keyword/")
-                if (linha.contains("/keyword/")) {
-                    this.palavras_chaves = removeTags(linha);
+                if (linha.contains(">Palavras-chave<")) {
+                    String palavrasTemp[] = new String[3000];
+                    int contador = 0;
+                    while (!linha.contains("</ul>") && !linha.contains("</section>")) {
+                        linha = html.readLine();
+                        if (linha.contains("li")) {
+                            palavrasTemp[contador++] = removeTags(linha).trim();
+                        }
+                    }
+                    if (contador != 0) {
+                        contador = contador > 0 ? contador - 1 : 0;
+
+                        palavras_chaves += "[";
+
+                        for (int i = 0; i <= contador; i++) {
+                            palavras_chaves += palavrasTemp[i];
+                            if (i != contador) {
+                                palavras_chaves += ", ";
+                            }
+                        }
+
+                        palavras_chaves += "]";
+                    } else {
+                        palavras_chaves = "[ ]";
+                    }
+
                 }
             }
 
@@ -449,8 +474,8 @@ class Filme {
     // main
     public static void main(String[] args) {
         MyIO.setCharset("UTF-8");
-        Filme[] Filme = new Filme[100];
-        String[] entrada = new String[10000];
+        Filme[] Filme = new Filme[10000];
+        String[] entrada = new String[1000000];
         int num_linha = 0;
 
         do {
