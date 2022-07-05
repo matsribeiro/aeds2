@@ -6,123 +6,58 @@ import java.util.Arrays;
 import java.util.Date;
 
 public class FilaCircularFlex {
-    public Film front;
-    public Film rear;
-    private int size;
-    private int capacity;
+    public static void main(String[] args) throws Exception {
 
-    /* CONSTRUTORES */
-    FilaCircularFlex(){
-        front = rear = null;
-        size = 0;
-        capacity = 100;
-    }
-    
-    FilaCircularFlex(Film obj){
-        front = rear = obj;
-        size = 1;
-        capacity = 100;
-    }
+        MyIO.setCharset("utf-8");
 
-    FilaCircularFlex(int tamanho){
-        front = rear = null;
-        size = 0;
-        capacity = tamanho;
-    }
+        FilaFlexivel movies = new FilaFlexivel(5);
+        String fileName;
 
-    /* METODOS */
-    //Insere uma celula no fundo da fila mediante a capacidade da mesma
-    public void inserir(Film obj){
-        if(size == capacity)
-            this.remover();
+        while (true) {
+
+            fileName = MyIO.readLine();
+            if (fileName.equals("FIM")) {
+
+                break;
+            }
+
+            Filme movie = new Filme();
+            movie.readClass(fileName);
+
+
+            movies.inserir(movie);
+            MyIO.println(movies.calculaMedia());
+        }
+
+        // movies.mostrar();
+
+        String lineAction = "";
         
-        if(size == 0){
-            front = rear = obj;
-        }else{
-            obj.next = rear;
-            rear = obj;
-        }
-        
-        size++;
-    }
 
-    //Remove a celula do topo da pilha (Pop)
-    public Film remover(){
-        Film removed = front;
+        int n = MyIO.readInt();
+        for (int i = 0; i < n; i++) {
 
-        if(size == 1){
-            front = rear = null;
-        }else{
-            Film i = rear;
+            lineAction = MyIO.readLine();
+            String action = lineAction.substring(0, 1);
+            String xName = "";
+            if (action.compareTo("I") == 0) {
 
-            for(int j = 0; j < this.size-1; j++, i = i.next);
-            
-            front = i;
-        }
-        size--;
+                xName = lineAction.substring(2);
+            } else if (action.compareTo("R") == 0) {}
 
-        return removed;
-    }
+            if (action.equals("I")) {
 
-    //Get do atributo size
-    public int getSize() { return this.size; }
+                Filme movieN = new Filme();
+                movieN.readClass(xName);
+                movies.inserir(movieN);
+                MyIO.println(movies.calculaMedia());
+            } else if (action.compareTo("R") == 0) {
 
-    //Get do atributo capacity (capacidade de celulas da fila)
-    public int getCapacity() { return this.capacity; }
-
-    //Checa se o input deve ser terminado
-    public static boolean isFim(String s){
-        return(s.length() == 3 && s.charAt(0) == 'F' && s.charAt(1) == 'I' && s.charAt(2) == 'M');
-    }
-
-    //Retorna um inteiro referente a media do atributo season (numero temporadas) de todas as Films contidas na fila
-    public int mediaBudget(){
-        double media = 0;
-        Film i = rear;
-
-        for(int j = 0; j < this.size; j++, i = i.next)
-            media += i.getBudget();
-
-        media /= this.size;
-
-        return (int)(Math.round(media));
-    }
-
-    /* MAIN */
-    public static void main (String[] args){
-        FilaCircularFlex fila = new FilaCircularFlex(5); //Construtor define capacidade = 5
-        String linha = MyIO.readLine();
-        Film obj;
-        int qnt_operacoes;
-
-        //Preenche a fila com todas as Films vindas antes do 1o "FIM"
-        while(isFim(linha) == false){
-            obj = new Film();
-            obj.ler(linha);
-            fila.inserir(obj);
-            System.out.println(fila.mediaBudget());
-
-            linha = MyIO.readLine();
-        }
-
-        //1a linha apos o "FIM" = quantidade de operacoes que serao realizadas
-        qnt_operacoes = Integer.parseInt(MyIO.readLine());
-
-        //Realiza todas as operacoes presentes nas seguintes qnt_operacoes linhas
-        for(int i = 0; i < qnt_operacoes; i++) {
-            linha = MyIO.readLine();
-
-            if(linha.charAt(0) == 'I'){                 // INSERCAO
-                obj = new Film();
-                obj.ler(linha.replace("I ", ""));
-
-                fila.inserir(obj);
-                System.out.println(fila.mediaBudget());
-            }else{                                      // REMOCAO
-                fila.remover();
+                MyIO.println("(R)" + " " + movies.remover().getName());
             }
         }
 
+        movies.mostrar();
     }
 }
 
@@ -285,7 +220,7 @@ class Film {
         // Data declaration
         String line = "";
 
-        try (BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(path),"UTF-8"))) {
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(path)))) {
 
             // Film name
             while(!reader.readLine().contains("title ott"));
@@ -309,20 +244,20 @@ class Film {
 
             // Film original title (if there is) & situation
             this.ogTitle = this.name;
-            while( !(line = reader.readLine()).contains("SituaÃ§Ã£o</bdi>") ) {
-                if(line.contains("TÃ­tulo original")){
-                    this.ogTitle = removeTags(line.replace("TÃ­tulo original", " ")).trim();
+            while( !(line = reader.readLine()).contains("Situação</bdi>") ) {
+                if(line.contains("Título original")){
+                    this.ogTitle = removeTags(line.replace("Título original", " ")).trim();
                 }
             }
-            this.situation = removeTags(line.replace("SituaÃ§Ã£o", " ")).trim();
+            this.situation = removeTags(line.replace("Situação", " ")).trim();
 
             // Film original language
             while( !(line = reader.readLine()).contains("Idioma original</bdi>") );
             this.ogLanguage = removeTags(line.replace("Idioma original", " ")).trim();
 
             // Film budget
-            while( !(line = reader.readLine()).contains("OrÃ§amento</bdi>") );
-            String aux = removeTags(line.replace("OrÃ§amento", " ")).trim();
+            while( !(line = reader.readLine()).contains("Orçamento</bdi>") );
+            String aux = removeTags(line.replace("Orçamento", " ")).trim();
             this.budget = (aux.equals("-")) ? 0.0F : convertBudget(aux);
 
             // Film key-words

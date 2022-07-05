@@ -5,7 +5,6 @@ import static java.lang.Integer.*;
 public class MatrizDinamica {
     private Celula inicio;
     private int linha, coluna;
-    private int size;
 
     public MatrizDinamica(){
         this(3,3);

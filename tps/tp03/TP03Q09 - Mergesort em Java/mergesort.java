@@ -312,7 +312,7 @@ class Film {
         // Data declaration
         String line = "";
 
-        try (BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(path),"UTF-8"))) {
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(path)))) {
 
             // Film name
             while(!reader.readLine().contains("title ott"));
@@ -336,20 +336,20 @@ class Film {
 
             // Film original title (if there is) & situation
             this.ogTitle = this.name;
-            while( !(line = reader.readLine()).contains("SituaÃ§Ã£o</bdi>") ) {
-                if(line.contains("TÃ­tulo original")){
-                    this.ogTitle = removeTags(line.replace("TÃ­tulo original", " ")).trim();
+            while( !(line = reader.readLine()).contains("Situação</bdi>") ) {
+                if(line.contains("Título original")){
+                    this.ogTitle = removeTags(line.replace("Título original", " ")).trim();
                 }
             }
-            this.situation = removeTags(line.replace("SituaÃ§Ã£o", " ")).trim();
+            this.situation = removeTags(line.replace("Situação", " ")).trim();
 
             // Film original language
             while( !(line = reader.readLine()).contains("Idioma original</bdi>") );
             this.ogLanguage = removeTags(line.replace("Idioma original", " ")).trim();
 
             // Film budget
-            while( !(line = reader.readLine()).contains("OrÃ§amento</bdi>") );
-            String aux = removeTags(line.replace("OrÃ§amento", " ")).trim();
+            while( !(line = reader.readLine()).contains("Orçamento</bdi>") );
+            String aux = removeTags(line.replace("Orçamento", " ")).trim();
             this.budget = (aux.equals("-")) ? 0.0F : convertBudget(aux);
 
             // Film key-words

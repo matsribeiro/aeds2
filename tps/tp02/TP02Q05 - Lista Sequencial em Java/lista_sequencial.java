@@ -5,178 +5,201 @@ import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
 
-public class lista_sequencial {
-    public Film array[];
-    private int size;
+class Lista{
+    private Film[] array;
+    private int tam;
 
-    /* CONSTRUTORES */
-    lista_sequencial(){
-        array = new Film[100]; //Tamanho default da lista = 100
-        size = 0;
-    }
-    
-    lista_sequencial(int capacity){
-        array = new Film[capacity]; //Tamanho definido manualmente
-        size = 0;
+    public Lista (){
+        this(100);
     }
 
-    lista_sequencial(Film obj){
-        array = new Film[100];
-        array[0] = obj;
-        size = 1;
+    public Lista (int tam){
+        this.array = new Film[tam];
+        this.tam = 0;
     }
 
-    /* METODOS DE INSERCAO */
-    //Insere na primeira posicao da lista e reorganiza todas as celulas seguintes
-    public void inserirInicio(Film obj){
-        for(int i = size; i > 0 ; i--)
-            array[i] = array[i-1];
-
-        array[0] = obj;
-        size++;
-    }
-
-    //Insere na ultima posicao da lista
-    public void inserirFim(Film obj){
-        array[size] = obj;
-        size++;
-    }
-
-    //Insere em uma posicao especificada da lista
-    public void inserir(Film obj, int index){
-        if(index == 0){
-            inserirInicio(obj);
-        }else if(index == this.size){
-            inserirFim(obj);
-        }else{
-            int i;
-
-            for(i = size; i > index; i--)
-                array[i] = array[i-1];
-
-            array[i] = obj;
-            size++;
-        }
-    }
-
-    /* METODOS DE REMOCAO */
-    //Remove a primeira celula da lista e retorna a celula removida
-    public Film removerInicio(){
-        Film removed = array[0];
-
-        for(int i = 0; i < size; i++)
-            array[i] = array[i+1];
-
-        size--;
-
-        return removed;
-    }
-
-    //Remove logicamente a ultima celula da lista e retorna a celula removida
-    public Film removerFim(){
-        Film removed = array[size - 1];
-
-        size--;
-
-        return removed;
-    }
-
-    //Remove a celula na posicao espeficada da lista
-    public Film remover(int index){
-        Film removed;
-
-        if(index == 0){
-            removed = removerInicio();
-        }else if(index == this.size - 1){
-            removed = removerFim();
-        }else{
-            removed = array[index];
-
-            for(int i = index; i < size; i++)
-                array[i] = array[i + 1];
-
-            size--;
+    /* MÉTODOS DE INSERÇÃO */
+    public void inserirInicio(Film film) throws Exception{
+        if(tam >= array.length){
+            throw new Exception("Erro ao inserir!");
         }
 
-        return removed;
-    }
-
-    /* METODOS MISCELANEOS */
-    //Get de size (afinal este eh um atributo privado e bemm essencial para o funcionamento da classe)
-    public int getSize() { return this.size; }
-
-    //Checa se o input deve ser terminado
-    public static boolean isFim(String s){
-        return(s.length() == 3 && s.charAt(0) == 'F' && s.charAt(1) == 'I' && s.charAt(2) == 'M');
-    }
-
-    /* MAIN */
-    public static void main (String[] args){
-        lista_sequencial lista = new lista_sequencial();
-        String linha = MyIO.readLine();
-        Film obj;
-        int qnt_operacoes, index;
-
-        //Preenche a lista com todas as Filmes vindas antes do 1o "FIM"
-        while(isFim(linha) == false){
-            obj = new Film();
-            obj.ler(linha);
-            lista.inserirFim(obj);
-
-            linha = MyIO.readLine();
+        for(int i = tam; i > 0; i--){
+            array[i] = array[i-1].clone();
         }
 
-        //1a linha apos o "FIM" = quantidade de operacoes que serao realizadas
-        qnt_operacoes = Integer.parseInt(MyIO.readLine());
+        array[0] = film.clone();
+        tam++;
+    }
 
-        //Realiza todas as operacoes presentes nas seguintes qnt_operacoes linhas
-        for(int i = 0; i < qnt_operacoes; i++) {
-            linha = MyIO.readLine();
+    public void inserirFim(Film film) throws Exception{
+        if(tam >= array.length){
+            throw new Exception("Erro ao inserir!");
+        }
+        
+        array[tam] = film.clone();
+        tam++;
+    }
 
-            if(linha.charAt(0) == 'I'){     // INSERCAO
-                obj = new Film();
-                
-                if(linha.charAt(1) == 'I'){                     // II -> inserir no inicio
-                    obj.ler(linha.replace("II ", ""));
+    public void inserir(Film film, int pos) throws Exception{
+        if(tam >= array.length || pos < 0 || pos > tam){
+            throw new Exception("Erro ao inserir!");
+        }
 
-                    lista.inserirInicio(obj);
-                }
-                else if(linha.charAt(1) == 'F'){                // IF -> inserir no fim
-                    obj.ler(linha.replace("IF ", ""));
+        for(int i = tam; i > pos; i--){
+            array[i] = array[i-1].clone();
+        }
 
-                    lista.inserirFim(obj);
-                }
-                else{                                           // I* -> inserir na posicao especificada
-                    linha = linha.replace("I* ", "");
-                    index = Integer.parseInt(linha.substring(0, 2));
+        array[pos] = film.clone();
+        tam++;
+    }
     
-                    obj.ler(linha.substring(3, linha.length()));
     
-                    lista.inserir(obj, index);
-                }
-                
-            }else{                          // REMOCAO
-                if(linha.charAt(1) == 'I'){                     // RI -> remover do inicio
-                    System.out.println("(R) " + lista.removerInicio().getName());
-                }
-                else if(linha.charAt(1) == 'F'){                // RF -> remover do fim
-                    System.out.println("(R) " + lista.removerFim().getName());
-                }
-                else{                                           // R* -> remover da posicao especificada
-                    linha = linha.replace("R* ", "");
-                    index = Integer.parseInt(linha);
+    /* MÉTODOS DE REMOÇÃO */
+    public Film removerInicio() throws Exception{
+        if(tam == 0){
+            throw new Exception("Erro ao remover!");
+        }
 
-                    System.out.println("(R) " + lista.remover(index).getName());
-                }
+        Film resp = array[0].clone();
+        tam--;
+
+        for(int i = 0; i < tam; i++){
+            array[i] = array[i+1].clone();
+        }
+
+        return resp;
+    }
+
+    public Film removerFim() throws Exception{
+        if(tam == 0){
+            throw new Exception("Erro ao remover!");
+        }
+
+        return array[--tam].clone();
+
+    }
+    
+    public Film remover(int pos) throws Exception{
+
+        if(tam == 0 || pos < 0 || pos >= tam){
+            throw new Exception("Erro ao remover!");
+        }
+
+        Film resp = array[pos].clone();
+        tam--;
+
+        for(int i = pos; i < tam; i++){
+            array[i] = array[i+1].clone();
+        }
+        return resp;
+    }
+
+
+    public void show (){
+        for(int i = 0; i < tam; i++){
+            System.out.print("[" + i + "] ");
+            array[i].imprimir();
+        }
+
+    }
+}
+
+public class lista_sequencial{
+    /**
+     * Receives a string and checks if it's equals to "FIM"
+     * @param str
+     * @return
+     */
+    public static boolean isFim (String str){
+        return (str.length() == 3 && str.charAt(0) == 'F' && str.charAt(1) == 'I' && str.charAt(2) == 'M');
+    } // ending method
+
+    /**
+     * (MAIN) receives an input from keyborad and starts the program
+     * @param String[] args
+     * @throws ParseException
+     * @return
+    */
+    public static void main (String[] args) throws Exception{
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in, "UTF-8"));
+        String[] in = new String[1000];
+        int count = 0;
+        String line; 
+
+        // Leitura dos endereços url
+        while(isFim (line = br.readLine()) == false){
+            in[count] = line;
+            count++;
+        }
+        
+        // Instanciamento dos objetos
+        Film f[] = new Film[count];
+        for(int i = 0; i < count; i++){
+            f[i]= new Film();
+            f[i].ler(in[i]);
+        }
+
+        
+        Lista list = new Lista();
+        for(int i = 0; i < count; i++){
+            list.inserirFim(f[i]);
+        }
+
+        Film tmp = new Film();
+        int qntI = Integer.parseInt(br.readLine());
+        String[] str = new String[3];
+
+        for(int i = 0; i < qntI; i++){
+            line = br.readLine();
+            
+            if(line.contains("II")){
+                str = line.split(" ", 2);
+
+                tmp.ler(str[1]);
+
+                list.inserirInicio(tmp);
+
+            } else if(line.contains("IF")){
+                str = line.split(" ", 2);
+            
+                tmp.ler(str[1]);
+
+                list.inserirFim(tmp);
+
+            } else if(line.contains("I*")){
+                str = line.split(" ", 3);
+
+                int pos = Integer.parseInt(str[1]);
+                tmp.ler(str[2]);
+
+                list.inserir(tmp, pos);
+
+            } else if(line.contains("RI")){
+                tmp = list.removerInicio();
+
+                System.out.println("(R) " + tmp.getName());
+
+            } else if(line.contains("RF")){
+                tmp = list.removerFim();
+
+                System.out.println("(R) " + tmp.getName());
+
+            } else if(line.contains("R*")){
+                str = line.split(" ", 2);
+
+                int pos = Integer.parseInt(str[1]);
+                tmp = list.remover(pos);
+
+                System.out.println("(R) " + tmp.getName());
+
             }
         }
 
-        //Printa as Celulas da lista a partir de first ate last
-        for(int i = 0; i < lista.getSize(); i++){
-            lista.array[i].imprimir();
-        }
-    }
-}
+        list.show();
+        
+    } // ending main
+} // ending class
 
 class Film {
     // Attributes
@@ -314,7 +337,7 @@ class Film {
      */
     public void ler(String fileName){
         // Getting the right path for each read file
-        String path = "./filmes/" + fileName;
+        String path = "/tmp/filmes/" + fileName;
 
         // Method that will split chunks of the read HTML and will assign the value to each Film's attribute
         splittingString(path);
@@ -324,7 +347,7 @@ class Film {
         // Data declaration
         String line = "";
 
-        try (BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(path),"UTF-8"))) {
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(path)))) {
 
             // Film name
             while(!reader.readLine().contains("title ott"));
@@ -348,20 +371,20 @@ class Film {
 
             // Film original title (if there is) & situation
             this.ogTitle = this.name;
-            while( !(line = reader.readLine()).contains("SituaÃ§Ã£o</bdi>") ) {
-                if(line.contains("TÃ­tulo original")){
-                    this.ogTitle = removeTags(line.replace("TÃ­tulo original", " ")).trim();
+            while( !(line = reader.readLine()).contains("Situação</bdi>") ) {
+                if(line.contains("Título original")){
+                    this.ogTitle = removeTags(line.replace("Título original", " ")).trim();
                 }
             }
-            this.situation = removeTags(line.replace("SituaÃ§Ã£o", " ")).trim();
+            this.situation = removeTags(line.replace("Situação", " ")).trim();
 
             // Film original language
             while( !(line = reader.readLine()).contains("Idioma original</bdi>") );
             this.ogLanguage = removeTags(line.replace("Idioma original", " ")).trim();
 
             // Film budget
-            while( !(line = reader.readLine()).contains("OrÃ§amento</bdi>") );
-            String aux = removeTags(line.replace("OrÃ§amento", " ")).trim();
+            while( !(line = reader.readLine()).contains("Orçamento</bdi>") );
+            String aux = removeTags(line.replace("Orçamento", " ")).trim();
             this.budget = (aux.equals("-")) ? 0.0F : convertBudget(aux);
 
             // Film key-words
